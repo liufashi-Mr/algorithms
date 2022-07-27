@@ -1,10 +1,14 @@
-// Map的妙用
+/**
+ *  Map的妙用
+ */
+//
 /*
     真题描述： 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
     你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
     示例: 给定 nums = [2, 7, 11, 15], target = 9
     因为 nums[0] + nums[1] = 2 + 7 = 9 所以返回 [0, 1]
 */
+// 定义一个统计时间的函数
 const timer = (callback) => {
   console.time("timer");
   console.log(callback());
@@ -29,7 +33,7 @@ const twoSum1 = (nums, target) => {
 timer(() => twoSum1(nums, target)); //[ [ 0, 1 ], [ 4, 5 ] ]
 // 从上面的解法来看，两层循环的时间复杂度是O(n^2)，每次都要将第一次遍历的数与后面的所有数相加与target比较
 
-// 巧用map解法，将求和问题变成球差问题
+// 巧用map解法空间换时间，将求和问题变成球差问题
 const twoSum2 = (nums, target) => {
   const map = {};
   const res = [];
@@ -63,3 +67,5 @@ const twoSum3 = (nums, target) => {
 timer(() => twoSum2(nums, target)); //[ [ 0, 1 ], [ 4, 5 ] ]
 // 以上使用map的解法，无论是js的对象还是es6的Map，都可以实现相同的功能，然后时间复杂度都是O(n)
 // 留个疑问，如果你将代码运行一下就会发现使用es6的Map会比使用js对象所需的时间少个一般左右。why？
+
+
