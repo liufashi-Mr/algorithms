@@ -1,4 +1,4 @@
-// 二叉树
+//```js
 const treeNode = {
   val: "A",
   left: {
@@ -17,7 +17,10 @@ const treeNode = {
     },
   },
 };
-//  先序遍历二叉树   根节点->左子树->右子树
+//```
+
+//-  先序遍历二叉树   根节点->左子树->右子树
+//```js
 function preOrder(node) {
   if (!node) return;
   console.log(node.val);
@@ -25,9 +28,11 @@ function preOrder(node) {
   preOrder(node.right);
 }
 preOrder(treeNode); // A B D E C F
+//```
 
-// 中序遍历二叉树   左子树->根节点->右子树
+//- 中序遍历二叉树   左子树->根节点->右子树
 
+//```js
 function inOrder(node) {
   if (!node) return;
   inOrder(node.left);
@@ -35,9 +40,9 @@ function inOrder(node) {
   inOrder(node.right);
 }
 inOrder(treeNode); // D B E A F C
-
-// 后序遍历二叉树   左子树->右子树->根节点
-
+//```
+//- 后序遍历二叉树   左子树->右子树->根节点
+//```js
 function postOrder(node) {
   if (!node) return;
   postOrder(node.left);
@@ -45,3 +50,4 @@ function postOrder(node) {
   console.log(node.val);
 }
 postOrder(treeNode); // D E B F C A
+//```
