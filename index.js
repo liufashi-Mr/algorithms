@@ -66,7 +66,7 @@ const renderMarkDown = (markdownTree, level) => {
 };
 
 fs.writeFileSync(
-  path.join(__dirname, "index.md"),
+  path.join(__dirname, "README.md"),
   renderMarkDown(getDir("./"), 1),
   "utf8"
 );
