@@ -1,12 +1,13 @@
-## 链表
 
-### 链表初识
+##	链表
 
+###	链表初识
+  
     链表：类似于数组，都是有序列表，线性结构。
         不同点在于，链表中，数据单位的名称叫做“结点”，而结点和结点的分布，相对于数据的连续来说在内存中可以是离散的。
 
-实现一个链表，通过嵌套对象的形式实现
 
+ 实现一个链表，通过嵌套对象的形式实现
 ```js
 const listInJS = {
   // 数据域
@@ -28,8 +29,7 @@ const node = new ListNode(1);
 console.log(node); //ListNode { val: 1, next: null }
 ```
 
-添加
-
+ 添加
 ```js
 const node2 = new ListNode(2);
 // 将节点2添加到以上的链表中
@@ -37,8 +37,7 @@ node.next = node2;
 console.log(node); //ListNode { val: 1, next: ListNode { val: 2, next: ListNode { val: 2, next: null } } }
 ```
 
-插入
-
+ 插入
 ```js
 const node3 = new ListNode(3);
 // 将节点3插入到节点一和二之间
@@ -48,17 +47,17 @@ console.log(node); //ListNode { val: 1,next: ListNode { val: 3, next: ListNode {
 ```
 
 删除
-
 ```js
 // 将node3删除 将node的next节点断开链接node3，然后指向node2
 node.next = node3.next;
 console.log(node); //ListNode { val: 1, next: ListNode { val: 2, next: null } }
 ```
 
-## 二叉树
 
-### 二叉树
 
+##	二叉树
+
+###	二叉树
 ```js
 const treeNode = {
   val: "A",
@@ -80,8 +79,7 @@ const treeNode = {
 };
 ```
 
-先序遍历二叉树 根节点->左子树->右子树
-
+  先序遍历二叉树   根节点->左子树->右子树
 ```js
 function preOrder(node) {
   if (!node) return;
@@ -92,7 +90,7 @@ function preOrder(node) {
 preOrder(treeNode); // A B D E C F
 ```
 
-中序遍历二叉树 左子树->根节点->右子树
+ 中序遍历二叉树   左子树->根节点->右子树
 
 ```js
 function inOrder(node) {
@@ -103,9 +101,7 @@ function inOrder(node) {
 }
 inOrder(treeNode); // D B E A F C
 ```
-
-后序遍历二叉树 左子树->右子树->根节点
-
+ 后序遍历二叉树   左子树->右子树->根节点
 ```js
 function postOrder(node) {
   if (!node) return;
@@ -116,15 +112,16 @@ function postOrder(node) {
 postOrder(treeNode); // D E B F C A
 ```
 
-## 数组的应用
 
-### Map 的妙用
 
-> 真题描述： 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
+##	数组的应用
 
+###	Map的妙用
+>真题描述： 给定一个整数数组 nums 和一个目标值 target，请你在该数组中找出和为目标值的那 两个 整数，并返回他们的数组下标。
     你可以假设每种输入只会对应一个答案。但是，你不能重复利用这个数组中同样的元素。
     示例: 给定 nums = [2, 7, 11, 15], target = 9
     因为 nums[0] + nums[1] = 2 + 7 = 9 所以返回 [0, 1]
+
 
 ```js
 //定义一个统计时间的函数
@@ -137,7 +134,7 @@ const nums = [2, 7, 11, 15, 1, 8];
 const target = 9;
 ```
 
-普通解法, 使用两层 for 循环，用 nums[i]和 nums[j]相加，若等于 target, 则向 result 中 push[i, j]
+ 普通解法, 使用两层for循环，用nums[i]和nums[j]相加，若等于target, 则向result中push[i, j]
 
 ```js
 const twoSum1 = (nums, target) => {
@@ -155,9 +152,9 @@ const twoSum1 = (nums, target) => {
 timer(() => twoSum1(nums, target)); //[ [ 0, 1 ], [ 4, 5 ] ]
 ```
 
-从上面的解法来看，两层循环的时间复杂度是 O(n^2)，每次都要将第一次遍历的数与后面的所有数相加与 target 比较
+ 从上面的解法来看，两层循环的时间复杂度是O(n^2)，每次都要将第一次遍历的数与后面的所有数相加与target比较
 
-巧用 map 解法空间换时间，将求和问题变成球差问题
+ 巧用map解法空间换时间，将求和问题变成球差问题
 
 ```js
 const twoSum2 = (nums, target) => {
@@ -175,10 +172,9 @@ const twoSum2 = (nums, target) => {
 };
 timer(() => twoSum2(nums, target)); //[ [ 0, 1 ], [ 4, 5 ] ]
 ```
+ 上述的方法将nums中的元素作为key，元素的下标作为value，这样就可以求出target-nums[i]的值，如果map中有这个值，则说明有两个元素的和等于target
 
-上述的方法将 nums 中的元素作为 key，元素的下标作为 value，这样就可以求出 target-nums[i]的值，如果 map 中有这个值，则说明有两个元素的和等于 target
-
-使用 es6 的 Map 来做
+ 使用es6的Map来做
 
 ```js
 const twoSum3 = (nums, target) => {
@@ -196,12 +192,10 @@ const twoSum3 = (nums, target) => {
 };
 timer(() => twoSum3(nums, target)); //[ [ 0, 1 ], [ 4, 5 ] ]
 ```
+ 以上使用map的解法，无论是js的对象还是es6的Map，都可以实现相同的功能，然后时间复杂度都是O(n)
+ 留个疑问，如果你将代码运行一下就会发现使用es6的Map会比使用js对象所需的时间少个一半左右。why？
 
-以上使用 map 的解法，无论是 js 的对象还是 es6 的 Map，都可以实现相同的功能，然后时间复杂度都是 O(n)
-留个疑问，如果你将代码运行一下就会发现使用 es6 的 Map 会比使用 js 对象所需的时间少个一半左右。why？
-
-> 扁平数据转树
-
+>扁平数据转树
     例：let arr = [
       { id: 1, name: "部门1", pid: 0 },
       { id: 2, name: "部门2", pid: 1 },
@@ -210,6 +204,7 @@ timer(() => twoSum3(nums, target)); //[ [ 0, 1 ], [ 4, 5 ] ]
       { id: 5, name: "部门5", pid: 4 },
       { id: 6, name: "部门6", pid: 9 },
     ];
+
 
 ```js
 let arr = [
@@ -221,10 +216,9 @@ let arr = [
   { id: 6, name: "部门6", pid: 9 },
 ];
 ```
-
-普通递归
-
+ 普通递归
 ```js
+
 const flatToTree = (data, pid) => {
   const result = [];
   const getChildren = (data, result, pid) => {
@@ -243,8 +237,7 @@ const flatToTree = (data, pid) => {
 timer(() => flatToTree(arr, 0));
 ```
 
-使用 Map 的引用避免递归
-
+ 使用Map的引用避免递归
 ```js
 const flatToTree1 = (arr) => {
   const map = {};
@@ -304,10 +297,9 @@ function flatToTree2(items) {
 console.log(JSON.stringify(flatToTree2(arr)));
 ```
 
-### 双指针法合并有序数组
 
-> 真题描述：给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
-
+###	双指针法合并有序数组
+>真题描述：给你两个有序整数数组 nums1 和 nums2，请你将 nums2 合并到 nums1 中，使 nums1 成为一个有序数组。
     说明: 初始化 nums1 和 nums2 的元素数量分别为 m 和 n 。 你可以假设 nums1 有足够的空间（空间大小大于或等于 m + n）来保存 nums2 中的元素。
 
     示例: 输入:
@@ -315,7 +307,7 @@ console.log(JSON.stringify(flatToTree2(arr)));
         nums2 = [2,5,6], n = 3
     输出: [1,2,2,3,5,6]
 
-定义一个统计时间的函数
+ 定义一个统计时间的函数
 
 ```js
 const timer = (callback) => {
@@ -355,8 +347,7 @@ const merge = (nums1, nums2, m, n) => {
 };
 ```
 
-在 js 中的另辟蹊径
-
+ 在js中的另辟蹊径
 ```js
 const merge2 = () => {
   nums1.splice(m, n, ...nums2);
@@ -367,16 +358,16 @@ timer(() => merge(nums1, nums2, m, n));
 console.log(nums1); //[ 1, 2, 2, 3, 5, 6 ]
 ```
 
-### 双指针法三数求和
 
-> 真题描述：给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
+###	双指针法三数求和
 
+>真题描述：给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
     注意：答案中不可以包含重复的三元组。
 
     示例： 给定数组 nums = [-1, 0, 1, 2, -1, -4]， 满足要求的三元组集合为： [ [-1, 0, 1], [-1, -1, 2] ]
 
-定义一个统计时间的函数
 
+ 定义一个统计时间的函数
 ```js
 const timer = (callback) => {
   console.time("timer");
@@ -384,8 +375,7 @@ const timer = (callback) => {
   console.timeEnd("timer");
 };
 ```
-
-如果按照最传统的思路可能需要三层循环，时间复杂度为 O(n^3)，肯定是不合适的。但是使用指针之后就会大大降低时间复杂度
+ 如果按照最传统的思路可能需要三层循环，时间复杂度为 O(n^3)，肯定是不合适的。但是使用指针之后就会大大降低时间复杂度
 
 ```js
 const nums = [-1, 0, 1, 2, 2, 2, -1, -4];
@@ -426,14 +416,16 @@ const threeSum = (nums) => {
 timer(() => threeSum(nums));
 ```
 
-总结一下:遇到“有序”和“数组”这两个关键字，立刻把就要想到双指针法普通双指针走不通，立刻想对撞指针！
 
-## 字符串的应用
+  总结一下:遇到“有序”和“数组”这两个关键字，立刻把就要想到双指针法普通双指针走不通，立刻想对撞指针！
 
-### 回文字符串
 
-判断一个字符串是否是回文字符串;
 
+
+##	字符串的应用
+
+###	回文字符串
+ 判断一个字符串是否是回文字符串;
 ```js
 const str = "yessey1";
 
@@ -459,9 +451,7 @@ function isPalindrome2(str) {
 }
 console.log(isPalindrome2(str));
 ```
-
-> 真题描述：给定一个非空字符串 s，最多删除一个字符。判断是否能成为回文字符串。
-
+>真题描述：给定一个非空字符串 s，最多删除一个字符。判断是否能成为回文字符串。
     示例 1: 输入: "aba"
     输出: True
     示例 2:
@@ -469,6 +459,7 @@ console.log(isPalindrome2(str));
     输出: True
     解释: 你可以删除c字符。
     注意: 字符串只包含从 a-z 的小写字母。字符串的最大长度是50000。
+
 
 ```js
 const validPalindrome = (str) => {
@@ -500,10 +491,9 @@ const validPalindrome = (str) => {
 console.log(validPalindrome(str));
 ```
 
-### 字符串匹配问题
 
-> 真题描述： 设计一个支持以下两种操作的数据结构：
-
+###	字符串匹配问题
+>真题描述： 设计一个支持以下两种操作的数据结构：
     void addWord(word)
     bool search(word)
     search(word) 可以搜索文字或正则表达式字符串，字符串只包含字母 . 或 a-z 。
@@ -519,6 +509,7 @@ console.log(validPalindrome(str));
     说明:
     你可以假设所有单词都是由小写字母 a-z 组成的。
 
+
 ```js
 const timer = (callback) => {
   console.time("timer");
@@ -527,8 +518,8 @@ const timer = (callback) => {
 };
 ```
 
-这个需要 addWord 和 search 两个功能，所以数据需要存在某个地方。
-分析：最简单的办法就是数组，将字符串存进数组，search 的时候如果没有"."就直接用 includes 判断，如果有就 new RegExp()
+ 这个需要addWord和search两个功能，所以数据需要存在某个地方。
+ 分析：最简单的办法就是数组，将字符串存进数组，search的时候如果没有"."就直接用includes判断，如果有就new RegExp()
 
 ```js
 class WordDictionary_ {
@@ -552,8 +543,7 @@ class WordDictionary_ {
 }
 ```
 
-这里为了降低查找时的复杂度，我们可以考虑以字符串的长度为 key，相同长度的字符串存在一个数组中，这样可以提高我们后续定位的效率。
-
+ 这里为了降低查找时的复杂度，我们可以考虑以字符串的长度为 key，相同长度的字符串存在一个数组中，这样可以提高我们后续定位的效率。
 ```js
 class WordDictionary {
   constructor() {
@@ -593,10 +583,9 @@ word.addWord("bav");
 timer(() => word.search("b.."));
 ```
 
-### 字符串与数字之间的转换问题
 
-> 真题描述：请你来实现一个 atoi 函数，使其能将字符串转换成整数。
-
+###	字符串与数字之间的转换问题
+>真题描述：请你来实现一个 atoi 函数，使其能将字符串转换成整数。
     首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。
     当我们寻找到的第一个非空字符为正或者负号时，则将该符号与之后面尽可能多的连续数字组合起来，作为该整数的正负号；假如第一个非空字符是数字，则直接将其与之后连续的数字字符组合起来，形成整数。
     该字符串除了有效的整数部分之后也可能会存在多余的字符，这些字符可以被忽略，它们对于函数不应该造成影响。
@@ -621,6 +610,7 @@ timer(() => word.search("b.."));
     输入: "-91283472332"
     输出: -2147483648
     解释: 数字 "-91283472332" 超过 32 位有符号整数范围。因此返回 INT_MIN (−2^31) 。
+
 
 ```js
 const atoi = (str) => {
@@ -649,19 +639,22 @@ console.log(atoi("-123")); // -123
 
 这题需要对正则比较了解
 首先，\s 这个符号，意味着空字符，它可以用来匹配回车、空格、换行等空白区域，这里，它用来被匹配空格。
-_这个符号，跟在其它符号后面，意味着“前面这个符号可以出现 0 次或多次。\s_，这里的意思就是空格出现 0 次或多次，都可被匹配到。
+*这个符号，跟在其它符号后面，意味着“前面这个符号可以出现0次或多次。\s*，这里的意思就是空格出现0次或多次，都可被匹配到。
 接着 () 出现了。() 圈住的内容，就是我们要捕获起来额外存储的东西。
 []中的匹配符之间是“或”的关系，也就是说只要能匹配上其中一个就行了。
 这里[]中包括了-和\+，-不必说匹配的是对应字符，这个\+之所以加了一个斜杠符，是因为+本身是一个有特殊作用的正则匹配符，这里我们要让它回归+字符的本义，所以要用一个\来完成转义。
-[0-9]*结合咱们前面铺陈的知识，这个就不难理解了，它的意思是 0-9 之间的整数，能匹配到 0 个或多个就算匹配成功。
-最后的 .这个是任意字符的意思，.*用于字符串尾部匹配非数字的任意字符。我们看到.\*是被排除捕获组之外的，所以说这个东西其实也不会被额外存储，它被“摘除”了。
+[0-9]*结合咱们前面铺陈的知识，这个就不难理解了，它的意思是 0-9 之间的整数，能匹配到0个或多个就算匹配成功。
+最后的 .这个是任意字符的意思，.*用于字符串尾部匹配非数字的任意字符。我们看到.*是被排除捕获组之外的，所以说这个东西其实也不会被额外存储，它被“摘除”了。
 
-## 链表的应用
 
-### 链表的合并
 
-> 真题描述：将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有结点组成的。
-> 示例： 输入：1->2->4, 1->3->4 输出：1->1->2->3->4->4
+
+##	链表的应用
+
+###	链表的合并
+>真题描述：将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有结点组成的。 
+示例： 输入：1->2->4, 1->3->4 输出：1->1->2->3->4->4
+
 
 ```js
 // 链表构造函数
@@ -696,15 +689,15 @@ const mergeTwoList = (l1, l2) => {
 console.log(JSON.stringify(mergeTwoList(l1, l2)));
 ```
 
-### 链表的删除
 
-> 真题描述：给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
-> 示例 1:
-> 输入: 1->1->2
-> 输出: 1->2
-> 示例 2:
-> 输入: 1->1->2->3->3
-> 输出: 1->2->3
+###	链表的删除
+>真题描述：给定一个排序链表，删除所有重复的元素，使得每个元素只出现一次。
+示例 1:
+输入: 1->1->2
+输出: 1->2
+示例 2:
+输入: 1->1->2->3->3
+输出: 1->2->3
 
 ```js
 // 链表构造函数
@@ -713,7 +706,6 @@ function ListNode(val, next) {
   this.next = next || null;
 }
 ```
-
 ```js
 const list = new ListNode(1, new ListNode(1, new ListNode(2)));
 const deleteDuplicates = (list) => {
@@ -730,20 +722,25 @@ const deleteDuplicates = (list) => {
 console.log(deleteDuplicates(list));
 ```
 
+
 删除问题的延伸——dummy 结点
 
-> 真题描述：给定一个排序链表，删除所有含有重复数字的结点，只保留原始链表中 没有重复出现的数字。
-> 示例 1:
-> 输入: 1->2->3->3->4->4->5
-> 输出: 1->2->5
-> 示例 2:
-> 输入: 1->1->1->2->3
-> 输出: 2->3
+
+>真题描述：给定一个排序链表，删除所有含有重复数字的结点，只保留原始链表中 没有重复出现的数字。
+示例 1:
+输入: 1->2->3->3->4->4->5
+输出: 1->2->5
+示例 2:
+输入: 1->1->1->2->3
+输出: 2->3
+
+
 
 我们先来分析一下这道题和上道题有什么异同哈：相同的地方比较明显，都是删除重复元素。
 不同的地方在于，楼上我们删到没有重复元素就行了，可以留个“独苗”；但现在，题干要求我们只要一个元素发生了重复，就要把它彻底从链表中干掉，一个不留。
 时我们就可以用一个 dummy 结点解决这个问题。
 所谓 dummy 就是人为制造出来的第一个结点的前驱结点，这样链表中所有的结点都能确保有一个前驱结点，也就都能够用同样的逻辑来处理了。
+
 
 ```js
 const list2 = new ListNode(
@@ -775,19 +772,22 @@ const deleteAllDuplicates = (list) => {
 console.log(deleteAllDuplicates(list2));
 ```
 
-### 快慢指针和多指针
 
+###	快慢指针和多指针
+ 
 链表题目中，有一类会涉及到反复的遍历。
 往往会涉及相对复杂的链表操作，比如反转、指定位置的删除等等。
 
-> 快慢指针——删除链表的倒数第 N 个结点
-> 真题描述：给定一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
-> 示例： 给定一个链表: 1->2->3->4->5, 和 n = 2.
-> 当删除了倒数第二个结点后，链表变为 1->2->3->5.
-> 说明： 给定的 n 保证是有效的。
+>快慢指针——删除链表的倒数第 N 个结点
+真题描述：给定一个链表，删除链表的倒数第 n 个结点，并且返回链表的头结点。
+示例： 给定一个链表: 1->2->3->4->5, 和 n = 2.
+当删除了倒数第二个结点后，链表变为 1->2->3->5.
+说明： 给定的 n 保证是有效的。
 
-像上面说的，这题是属于指定位置的删除，这个时候需要两次遍历，如上题，删除倒数第 n 个就是删除正数 length+1-n 个
+
+像上面说的，这题是属于指定位置的删除，这个时候需要两次遍历，如上题，删除倒数第n个就是删除正数length+1-n个
 这个时候就需要一次遍历拿到链表长度。
+
 
 ```js
 // 链表构造函数
@@ -796,7 +796,6 @@ function ListNode(val, next) {
   this.next = next || null;
 }
 ```
-
 ```js
 const list = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4))));
 const removeNthFromEnd = (list, n) => {
@@ -821,8 +820,8 @@ const removeNthFromEnd = (list, n) => {
   return dummy.next;
 };
 // console.log(JSON.stringify(removeNthFromEnd(list, 2)));
-```
 
+```
 不过这种超过一次的遍历必然需要引起我们的注意，我们应该主动去思考，“如果一次遍历来解决这个问题，我可以怎么做？”，这时候，就要请双指针法来帮忙了。
 
 ```js
@@ -846,3 +845,54 @@ const removeNthFromEnd2 = (list, n) => {
 };
 console.log(JSON.stringify(removeNthFromEnd2(list, 2)));
 ```
+
+
+###	多指针实现链表的反转
+链表的反转
+>真题描述：定义一个函数，输入一个链表的头结点，反转该链表并输出反转后链表的头结点。
+示例:
+输入: 1->2->3->4->5->NULL
+输出: 5->4->3->2->1->NULL
+
+处理链表的本质，是处理链表结点之间的指针关系。
+
+```js
+// 链表构造函数
+function ListNode(val, next) {
+  this.val = val;
+  this.next = next || null;
+}
+```
+
+ 遍历链表的时候让当前节点next指向上一个节点即可，需要注意next指向改变之后会导致丢失后续的遍历，需要一个next节点用来保存断开的后续节点
+```js
+const list = new ListNode(
+  1,
+  new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5))))
+);
+
+const reverseList = (list) => {
+  let cur = list; //头结点
+  let pre = null; //前置节点
+  // while遍历链表
+  while (cur) {
+    let next = cur.next; //先保存next节点，保证遍历能继续进行
+    cur.next = pre; //反转链表
+    // 向后遍历
+    pre = cur;
+    cur = next;
+  }
+  return pre;
+};
+console.log(JSON.stringify(reverseList(list)));
+```
+
+局部反转一个链表
+>真题描述：反转从位置 m 到 n 的链表。请使用一趟扫描完成反转。
+说明: 1 ≤ m ≤ n ≤ 链表长度。
+示例:
+输入: 1->2->3->4->5->NULL, m = 2, n = 4
+输出: 1->4->3->2->5->NULL
+
+
+
