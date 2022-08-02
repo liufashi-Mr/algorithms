@@ -76,3 +76,106 @@ timer(() => twoSum3(nums, target)); //[ [ 0, 1 ], [ 4, 5 ] ]
 //```
 //- 以上使用map的解法，无论是js的对象还是es6的Map，都可以实现相同的功能，然后时间复杂度都是O(n)
 //- 留个疑问，如果你将代码运行一下就会发现使用es6的Map会比使用js对象所需的时间少个一半左右。why？
+
+/*quote
+  扁平数据转树
+    例：let arr = [
+      { id: 1, name: "部门1", pid: 0 },
+      { id: 2, name: "部门2", pid: 1 },
+      { id: 3, name: "部门3", pid: 1 },
+      { id: 4, name: "部门4", pid: 3 },
+      { id: 5, name: "部门5", pid: 4 },
+      { id: 6, name: "部门6", pid: 9 },
+    ];
+*/
+
+//```js
+let arr = [
+  { id: 1, name: "部门1", pid: 0 },
+  { id: 2, name: "部门2", pid: 1 },
+  { id: 3, name: "部门3", pid: 1 },
+  { id: 4, name: "部门4", pid: 3 },
+  { id: 5, name: "部门5", pid: 4 },
+  { id: 6, name: "部门6", pid: 9 },
+];
+//```
+//- 普通递归
+//```js
+
+const flatToTree = (data, pid) => {
+  const result = [];
+  const getChildren = (data, result, pid) => {
+    data.forEach((item) => {
+      if (item.pid === pid) {
+        const newItem = { ...item, children: [] };
+        result.push(newItem);
+        getChildren(data, newItem.children, item.id);
+      }
+    });
+  };
+  getChildren(data, result, pid);
+  return result;
+};
+
+timer(() => flatToTree(arr, 0));
+//```
+
+//- 使用Map的引用避免递归
+//```js
+const flatToTree1 = (arr) => {
+  const map = {};
+  const res = [];
+  arr.forEach((item) => {
+    if (!map[item.id]) {
+      map[item.id] = { children: [] };
+    }
+    map[item.id] = {
+      ...item,
+      children: map[item.id]["children"],
+    };
+    if (item.pid === 0) {
+      res.push(map[item.id]);
+    } else {
+      if (!map[item.pid]) {
+        // 无关数据
+        map[item.pid] = {
+          children: [],
+        };
+      }
+      map[item.pid].children.push(map[item.id]);
+    }
+  });
+  console.log(JSON.stringify(res));
+  return res;
+};
+timer(() => flatToTree1(arr));
+//```
+
+//```js
+function flatToTree2(items) {
+  const result = []; // 存放结果集
+  const itemMap = {}; //
+  for (const item of items) {
+    const id = item.id;
+    const pid = item.pid;
+    itemMap[id] = {
+      ...item,
+      children: [],
+    };
+    if (pid === 0) {
+      result.push(itemMap[id]);
+    } else {
+      // pid没有的时候
+      if (!itemMap[pid]) {
+        itemMap[pid] = {
+          children: [],
+        };
+      }
+      itemMap[pid].children.push(itemMap[id]);
+    }
+  }
+  console.log(JSON.stringify(res));
+  return result;
+}
+console.log(JSON.stringify(flatToTree2(arr)));
+//```
