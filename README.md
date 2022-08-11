@@ -1184,7 +1184,6 @@ console.log(myQueue.empty());
 >题目描述：给定一个数组 nums 和滑动窗口的大小 k，请找出所有滑动窗口里的最大值。
 示例: 输入: nums = [1,3,-1,-3,5,3,6,7], 和 k = 3 输出: [3,3,5,5,6,7]
 解释: 滑动窗口的位置
----------------
 [1 3 -1] -3 5 3 6 7
 1 [3 -1 -3] 5 3 6 7
 1 3 [-1 -3 5] 3 6 7
@@ -1236,6 +1235,342 @@ const maxSlidingWindow2 = function (nums, k) {
     }
   }
   return res;
+};
+```
+
+
+
+##	递归和回溯思想的应用
+
+###	应用
+>题目描述：给定一个没有重复数字的序列，返回其所有可能的全排列。
+示例：   
+输入: [1,2,3]
+输出: [
+[1,2,3],
+[1,3,2],
+[2,1,3],
+[2,3,1],
+[3,1,2],
+[3,2,1]
+]
+
+```js
+const permute = (nums) => {
+  const res = [];
+  let cur = [];
+  const visited = {};
+
+  function dfs(depth) {
+    if (depth === nums.length) {
+      res.push([...cur]);
+      return;
+    }
+    for (let i = 0; i < nums.length; i++) {
+      if (!visited[nums[i]]) {
+        visited[nums[i]] = 1;
+        cur.push(nums[i]);
+        dfs(depth + 1);
+        // 每次执行到最后删除cur尾部，为下次留出空间，visited也重置
+        cur.pop();
+        visited[nums[i]] = 0;
+      }
+    }
+  }
+  dfs(0);
+  return res;
+};
+console.log(permute([1, 2, 3]));
+```
+
+>题目描述：给定一组不含重复元素的整数数组 nums，返回该数组所有可能的子集（幂集）。
+说明：解集不能包含重复的子集。
+示例: 输入: nums = [1,2,3]
+输出:
+[
+[3],
+[1],
+[2],
+[1,2,3],
+[1,3],
+[2,3],
+[1,2],
+[]
+]
+
+
+```js
+const subsets = function (nums) {
+  const res = [];
+  const len = nums.length;
+  const cur = [];
+  dfs(0);
+  function dfs(index) {
+    // 每次进入，都意味着组合内容更新了一次，故直接推入结果数组
+    res.push(cur.slice());
+    // 从当前数字的索引开始，遍历 nums
+    for (let i = index; i < len; i++) {
+      // 这是当前数字存在于组合中的情况
+      cur.push(nums[i]);
+      // 基于当前数字存在于组合中的情况，进一步 dfs
+      dfs(i + 1);
+      // 这是当前数字不存在于组合中的情况
+      cur.pop();
+    }
+  }
+  return res;
+};
+console.log(subsets([1, 2, 3]));
+```
+
+>题目描述：给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合。
+示例: 输入: n = 4, k = 2
+输出:
+[
+[2,4],
+[3,4],
+[2,3],
+[1,2],
+[1,3],
+[1,4],
+]
+
+```js
+const combine = function (n, k) {
+  const res = [];
+  const cur = [];
+  dfs(1);
+  function dfs(index) {
+    if (cur?.length === k) {
+      res.push([...cur]);
+      return;
+    }
+    for (let i = index; i <= n; i++) {
+      cur.push(i);
+      dfs(i + 1);
+      cur.pop();
+    }
+  }
+  return res;
+};
+console.log(combine(4, 2));
+```
+
+什么时候用递归回溯思想
+看两个特征：
+题目中暗示了一个或多个解，并且要求我们详尽地列举出每一个解的内容时，一定要想到 DFS、想到递归回溯。  
+题目经分析后，可以转化为树形逻辑模型求解。
+一个模型——树形逻辑模型；两个要点——递归式和递归边界。
+树形逻辑模型的构建，关键在于找“坑位”，一个坑位就对应树中的一层，每一层的处理逻辑往往是一样的，这个逻辑就是递归式的内容。至于递归边界，要么在题目中约束得非常清楚、要么默认为“坑位”数量的边界。  
+
+>function xxx(入参) {
+  前期的变量定义、缓存等准备工作 
+  // 定义路径栈
+  const path = []
+  // 进入 dfs
+  dfs(起点) 
+  // 定义 dfs
+  dfs(递归参数) {
+    if(到达了递归边界) {
+      结合题意处理边界逻辑，往往和 path 内容有关
+      return   
+    }
+    // 注意这里也可能不是 for，视题意决定
+    for(遍历坑位的可选值) {
+      path.push(当前选中值)
+      处理坑位本身的相关逻辑
+      path.pop()
+    }
+  }
+}
+
+没有思路的时候对照着这个模板想一想说不定就有了呢
+
+
+
+##	二叉树真题归纳解读
+
+###	二叉树遍历
+先（前）序遍历迭代实现
+>题目描述：给定一个二叉树，返回它的前序（先序）遍历序列。
+示例: 输入: [1,null,2,3]
+1   
+ \   
+  2   
+ /  
+3 
+输出: [1,2,3]
+进阶: 递归算法很简单，你可以通过迭代算法完成吗？
+
+```js
+function TreeNode(val, left, right) {
+  this.val = val === undefined ? 0 : val;
+  this.left = left === undefined ? null : left;
+  this.right = right === undefined ? null : right;
+}
+```
+不使用递归 使用迭代算法
+
+前序遍历的规则是，先遍历根结点、然后遍历左孩子、最后遍历右孩子——这正是我们所期望的出栈序列。按道理，入栈序列和出栈序列相反，我们似乎应该按照 右->左->根 这样的顺序将结点入栈。不过需要注意的是，我们遍历的起点就是根结点，难道我们要假装没看到这个根结点、一鼓作气找到最右侧结点之后才开始进行入栈操作吗？答案当然是否定的，我们的出入栈顺序应该是这样的：  
+1.将根结点入栈 
+2.取出栈顶结点，将结点值 push 进结果数组 
+3.若栈顶结点有右孩子，则将右孩子入栈
+4.若栈顶结点有左孩子，则将左孩子入栈
+
+```js
+var preorderTraversal = function (root) {
+  const stack = [root];
+  const res = [];
+  if (!root) {
+    return res;
+  }
+  while (stack?.length) {
+    const cur = stack.pop();
+    res.push(cur.val);
+    if (cur.right) {
+      stack.push(cur.right);
+    }
+    if (cur.left) {
+      stack.push(cur.left);
+    }
+  }
+  return res;
+};
+```
+异曲同工的后序遍历迭代实现
+```js
+const postorderTraversal = function (root) {
+  const res = [];
+  if (!root) {
+    return res;
+  }
+  const stack = [root];
+  while (stack.length) {
+    const cur = stack.pop();
+    res.unshift(cur.val);
+    if (cur.left) {
+      stack.push(cur.left);
+    }
+    if (cur.right) {
+      stack.push(cur.right);
+    }
+  }
+  return res;
+};
+```
+思路清奇的中序遍历迭代实现
+```js
+const inorderTraversal = function (root) {
+  const res = [];
+  const stack = [];
+  let cur = root;
+  while (cur || stack.length) {
+    // 这个 while 的作用是把寻找最左叶子结点的过程中，途径的所有结点都记录下来
+    while (cur) {
+      // 将途径的结点入栈
+      stack.push(cur);
+      // 继续搜索当前结点的左孩子
+      cur = cur.left;
+    }
+    // 取出栈顶元素
+    cur = stack.pop();
+    // 将栈顶元素入栈
+    res.push(cur.val);
+    // 尝试读取 cur 结点的右孩子
+    cur = cur.right;
+  }
+  return res;
+};
+```
+
+层序遍历的衍生问题
+>题目描述：给你一个二叉树，请你返回其按 层序遍历 得到的节点值。 （即逐层地，从左到右访问所有节点）。
+示例： 二叉树：[3,9,20,null,null,15,7],
+  3
+ / \
+9  20
+  /  \
+ 15   7
+返回其层次遍历结果：
+[
+[3],
+[9,20],
+[15,7]
+]
+
+```js
+const levelOrder = function (root) {
+  // 初始化结果数组
+  const res = [];
+  // 处理边界条件
+  if (!root) {
+    return res;
+  }
+  // 初始化队列
+  const queue = [];
+  // 队列第一个元素是根结点
+  queue.push(root);
+  // 当队列不为空时，反复执行以下逻辑
+  while (queue.length) {
+    // level 用来存储当前层的结点
+    const level = [];
+    // 缓存刚进入循环时的队列长度，这一步很关键，因为队列长度后面会发生改变
+    const len = queue.length;
+    // 循环遍历当前层级的结点
+    for (let i = 0; i < len; i++) {
+      // 取出队列的头部元素
+      const top = queue.shift();
+      // 将头部元素的值推入 level 数组
+      level.push(top.val);
+      // 如果当前结点有左孩子，则推入下一层级
+      if (top.left) {
+        queue.push(top.left);
+      }
+      // 如果当前结点有右孩子，则推入下一层级
+      if (top.right) {
+        queue.push(top.right);
+      }
+    }
+    // 将 level 推入结果数组
+    res.push(level);
+  }
+  // 返回结果数组
+  return res;
+};
+```
+
+
+###	翻转二叉树
+>题目描述：翻转一棵二叉树。
+示例：
+输入：
+
+     4
+   /   \
+  2     7
+ / \   / \
+1   3 6   9
+输出：
+     4
+   /   \
+  7     2
+ / \   / \
+9   6 3   1
+
+```js
+const invertTree = function (root) {
+  // 定义递归边界
+  if (!root) {
+    return root;
+  }
+  // 递归交换右孩子的子结点
+  let right = invertTree(root.right);
+  // 递归交换左孩子的子结点
+  let left = invertTree(root.left);
+  // 交换当前遍历到的两个左右孩子结点
+  root.left = right;
+  root.right = left;
+  return root;
 };
 ```
 
