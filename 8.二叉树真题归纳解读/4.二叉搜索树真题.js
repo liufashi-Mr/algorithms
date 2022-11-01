@@ -30,7 +30,6 @@ var isValidBST = function (root) {
 示例: 给定有序数组: [-10,-3,0,5,9],
 一个可能的答案是：[0,-3,9,-10,null,5]，它可以表示下面这个高度平衡二叉搜索树：
 */
-
 //```js
 var sortedArrayToBST = function (nums) {
   if (!nums.length) return null;
